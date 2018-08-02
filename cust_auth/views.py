@@ -12,11 +12,12 @@ from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.http import Http404
 from .forms import LoginForm, SignupForm
+from .models import UserProfile
 
 
 # Get redirect url from settings file or else redirect to admin page.
-login_redirect_url = settings.LOGIN_REDIRECT_URL or '/admin'
-signup_redirect_url = settings.SIGNUP_REDIRECT_URL or ''
+profile_redirect_url = settings.PROFILE_REDIRECT_URL or '/admin'
+login_redirect_url = settings.LOGIN_REDIRECT_URL or ''
 
 
 class Login(View):
@@ -25,8 +26,8 @@ class Login(View):
         """
         Return login template
         """
-        # if request.user.is_authenticated():
-        #     return redirect(login_redirect_url)
+        if request.user.is_authenticated():
+            return redirect(profile_redirect_url)
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
 
@@ -48,7 +49,7 @@ class Login(View):
             return render(request, 'registration/login.html', {'errors': error, 'form': form})
 
         if user.check_password(password):
-            return redirect(login_redirect_url)
+            return redirect(profile_redirect_url)
         error = {'general_error': "Passwords don't match"}
         return render(request, 'registration/login.html', {'errors': error, 'form': form})
         
@@ -59,8 +60,8 @@ class Signup(View):
         Return signup template
         """
         import pdb; pdb.set_trace()
-        # if request.user.is_authenticated():
-        #     return redirect(signup_redirect_url)
+        if request.user.is_authenticated():
+            return redirect(login_redirect_url)
         form = SignupForm()
         return render(request, 'registration/signup.html', {'form': form})
 
@@ -79,21 +80,24 @@ class Signup(View):
         password_1 = signup_form.cleaned_data.get('password_1')
         password_2 = signup_form.cleaned_data.get('password_2')
         mobile = signup_form.cleaned_data.get('mobile')
-        import pdb; pdb.set_trace()
         if not password_1 == password_2:
             error = {'general_error': "Passwords don't match"}
             return render(request, 'registration/signup.html', {'errors': error, 'form': signup_form})
         try:
             user, created = User.objects.get_or_create(username=username)
             if created:
+                import pdb;pdb.set_trace()
                 user.set_password(password_1)
                 user.first_name = first_name
                 user.last_name = last_name
                 user.email = email
                 user.mobile = mobile
                 user.save()
+                user_profile, user_profile_create = UserProfile.objects.get_or_create(user=user)
+                user_profile.mobile = mobile
+                user_profile.save()
                 login(request, user)
-                return redirect(signup_redirect_url)
+                return redirect(login_redirect_url)
             else:
                 error = {'general_error': 'User already registered.'}
                 return render(request, 'registration/signup.html', {'errors': error, 'form': signup_form})
@@ -110,3 +114,12 @@ class Profile(LoginRequiredMixin, View):
         Return Profile template
         """
         return render(request, 'registration/profile.html')
+
+def logoutuser(request):
+    logout(request)
+    return redirect(login_redirect_url)
+
+class UpdateProfile(LoginRequiredMixin,View):
+    
+    def get(self,request):
+        return render(request,'registration/update_profile.html')

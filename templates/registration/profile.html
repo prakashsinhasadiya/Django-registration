@@ -7,20 +7,18 @@
 <div class="limiter">
     <div class="container-login100">
       <div class="wrap-login100">
-        <form class="login100-form" method="post" >
         <span class="login100-form-title p-b-26">
             Welcome {{user.username}}
           </span>
-        {% csrf_token %}
           <div class="container-login100-form-btn">
             <div class="wrap-login100-form-btn">
               <div class="login100-form-bgbtn"></div>
-              <button class="login100-form-btn" type="submit">
+              <a href="/logout">
+              <button class="login100-form-btn">
                 Logout
-              </button>
+              </button></a>
             </div>
           </div>
-        </form>
         <div class="container-login100-form-btn">
             <div class="wrap-login100-form-btn">
               <div class="login100-form-bgbtn"></div>
@@ -29,7 +27,17 @@
                 Change Password
               </button>
             </div>
-          </div>
+        </div>
+        <div class="container-login100-form-btn">
+            <div class="wrap-login100-form-btn">
+              <div class="login100-form-bgbtn"></div>
+              <a href="/update_profile">
+              <button class="login100-form-btn">
+                     Update Profile         
+              </button>
+            </a>
+            </div>
+        </div>
       </div>
     </div>
   </div>

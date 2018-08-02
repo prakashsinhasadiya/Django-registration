@@ -102,11 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-AUTHENTICATION_BACKENDS = (
-  'project.backends.LoginUsingEmailAsUsernameBackend',
-  'django.contrib.auth.backends.ModelBackend',
-)
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
@@ -121,8 +116,8 @@ USE_L10N = True
 USE_TZ = True
 
 
-LOGIN_REDIRECT_URL = '/profile'
-SIGNUP_REDIRECT_URL = '/login'
+PROFILE_REDIRECT_URL = '/profile'
+LOGIN_REDIRECT_URL = '/login'
 LOGIN_URL = "/"
 
 

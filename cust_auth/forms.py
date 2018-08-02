@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-
+from django.core.exceptions import ValidationError
+from django.contrib.auth.models import User
 from django import forms
 
 
@@ -28,7 +29,20 @@ class SignupForm(forms.Form):
     email = forms.EmailField(
         required=True, widget=forms.EmailInput(attrs={'class': 'inputcustom'}))
 
-
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        import pdb;pdb.set_trace()
+        if User.objects.filter(email=email).exists():
+            message = "User alresy existes with this email"
+            raise ValidationError(message)
+        return email
+    def clean_password2(self):
+        password_2 = self.cleaned_data.get('password_2')
+        password_1 = self.cleaned_data.get('password_1')
+        if password_1 and password_2 and password_1 != password_2:
+            message = "Passwords do not match"
+            raise ValidationError(message)
+        return password2
 # class ResetPasswordForm(forms.Form):
 #     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(
 #         attrs={'class': 'inputcustom'}))
