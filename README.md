@@ -1,0 +1,2 @@
+# Django-registration
+custom registratopn 
