@@ -1,0 +1,39 @@
+
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
+.container-customstyle {
+  width: 100%;  
+  min-height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background: #e6cece;  
+}
+.wrap-customstyle{
+  width: 390px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  padding: 77px 55px 33px 55px;
+}
+.wrap-inputcustomstyle {
+  position: relative;
+  margin-bottom: 37px;
+  margin-top: 20px;
+}
+
+.inputcustom {
+  font-family: Poppins-Regular;
+  font-size: 15px;
+  color: #555555;
+  line-height: 1.2;
+  display: block;
+  width: 100%;
+  height: 24px;
+  background: transparent;
+  padding: 0 5px;
+}

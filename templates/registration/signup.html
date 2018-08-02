@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Signup</title>{% endblock %}
+
+{% block body %}
+<div class="limiter">
+    <div class="container-customstyle">
+      <div class="wrap-customstyle">
+        <form class="form" method="post">
+        {% csrf_token %}
+          <span class="form-title-custom">
+            Signup Form
+          </span>
+          <div class="wrap-inputcustomstyle">
+          <span>First Name</span>
+            {{form.first_name}}
+          </div>
+          {%if 'first_name' in errors%}
+            <div class='alert alert-warning'>{{errors.first_name}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>Last Name</span>
+            {{form.last_name}}
+          </div>
+          {%if 'last_name' in errors%}
+            <div class='alert alert-warning'>{{errors.last_name}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>User Name</span>
+            {{form.username}}
+          </div>
+          {%if 'username' in errors%}
+            <div class='alert alert-warning'>{{errors.username}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>Email</span>
+            {{form.email}}
+          </div>
+          {%if 'email' in errors%}
+            <div class='alert alert-warning'>{{errors.email}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>Mobile</span>
+            {{form.mobile}}
+          </div>
+          {%if 'mobile' in errors%}
+            <div class='alert alert-warning'>{{errors.mobile}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>Password</span>
+            {{form.password_1}}
+          </div>
+          {%if 'password_1' in errors%}
+            <div class='alert alert-warning'>{{errors.password_1}}</div>
+          {% endif %}
+          
+          <div class="wrap-inputcustomstyle">
+          <span>Confirm Password</span>
+            {{form.password_2}}
+          </div>
+          {%if 'password_2' in errors%}
+            <div class='alert alert-warning'>{{errors.password_2}}</div>
+          {% endif %}
+          {%if 'general_error' in errors%}
+            <div class='alert alert-warning'>{{errors.general_error}}</div>
+          {% endif %}
+          <div>
+            <div>
+              <div></div>
+              <button type="submit">
+                Sign Up
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

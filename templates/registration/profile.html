@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}<title>Login</title>{% endblock %}
+
+{% block body %}
+<div class="limiter">
+    <div class="container-login100">
+      <div class="wrap-login100">
+        <form class="login100-form" method="post" >
+        <span class="login100-form-title p-b-26">
+            Welcome {{user.username}}
+          </span>
+        {% csrf_token %}
+          <div class="container-login100-form-btn">
+            <div class="wrap-login100-form-btn">
+              <div class="login100-form-bgbtn"></div>
+              <button class="login100-form-btn" type="submit">
+                Logout
+              </button>
+            </div>
+          </div>
+        </form>
+        <div class="container-login100-form-btn">
+            <div class="wrap-login100-form-btn">
+              <div class="login100-form-bgbtn"></div>
+              <form method="get" >
+              <button class="login100-form-btn" type="submit">
+                Change Password
+              </button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
