@@ -11,7 +11,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.http import Http404
-from .forms import LoginForm, SignupForm
+from .forms import LoginForm, SignupForm,ProfileForm,ResetPasswordForm
 from .models import UserProfile
 
 
@@ -28,6 +28,7 @@ class Login(View):
         """
         if request.user.is_authenticated():
             return redirect(profile_redirect_url)
+        import pdb; pdb.set_trace()
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
 
@@ -35,7 +36,6 @@ class Login(View):
         """
         Login user and redirect to Profile
         """
-        print('aaaaaaaaaaaaaaaaaaaaaaaaaaaa')
         form = LoginForm()
         login_form = LoginForm(request.POST)
         if not login_form.is_valid():
@@ -49,6 +49,7 @@ class Login(View):
             return render(request, 'registration/login.html', {'errors': error, 'form': form})
 
         if user.check_password(password):
+            login(request, user)
             return redirect(profile_redirect_url)
         error = {'general_error': "Passwords don't match"}
         return render(request, 'registration/login.html', {'errors': error, 'form': form})
@@ -59,7 +60,6 @@ class Signup(View):
         """
         Return signup template
         """
-        import pdb; pdb.set_trace()
         if request.user.is_authenticated():
             return redirect(login_redirect_url)
         form = SignupForm()
@@ -86,7 +86,6 @@ class Signup(View):
         try:
             user, created = User.objects.get_or_create(username=username)
             if created:
-                import pdb;pdb.set_trace()
                 user.set_password(password_1)
                 user.first_name = first_name
                 user.last_name = last_name
@@ -107,19 +106,45 @@ class Signup(View):
 
 
 
-class Profile(LoginRequiredMixin, View):
+class Profile(View):
 
     def get(self, request):
         """
         Return Profile template
         """
+        if not request.user.is_authenticated():
+            return redirect(login_redirect_url)
         return render(request, 'registration/profile.html')
 
 def logoutuser(request):
     logout(request)
     return redirect(login_redirect_url)
 
-class UpdateProfile(LoginRequiredMixin,View):
+class UpdateProfile(View):
     
     def get(self,request):
-        return render(request,'registration/update_profile.html')
+        if not request.user.is_authenticated():
+            return redirect(login_redirect_url)
+        form = ProfileForm()
+        profile_form = ProfileForm(request.POST or None, initial={'mobile':request.user.userprofile.mobile})
+        return render(request, 'registration/update_profile.html', {'form': profile_form})
+
+    def post(self,request):
+        form = ProfileForm()
+        profile_form = ProfileForm(request.POST)
+        if not profile_form.is_valid():
+            return render(request, 'registration/update_profile.html', {'errors': profile_form.errors, 'form': form})
+        mobile = profile_form.cleaned_data.get('mobile')    
+        user_update_profile, user_update_profile_create = UserProfile.objects.get_or_create(user=request.user)
+        user_update_profile.mobile = mobile
+        user_update_profile.save()
+        return redirect(profile_redirect_url)
+
+class ResetPassword(View):
+
+    def get(self,request):
+        form = ResetPasswordForm()
+        return render(request, 'registration/reset_password.html', {'form': form})
+
+    def  post(self,request):
+        import pdb; pdb.set_trace()

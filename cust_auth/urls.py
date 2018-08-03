@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf.urls import url
-from .views import Login, Signup,Profile,logoutuser,UpdateProfile
+from .views import Login, Signup,Profile,logoutuser,UpdateProfile,ResetPassword
 from django.contrib.auth.views import logout
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     url(r'^signup/$', Signup.as_view(), name='signup'),
     url(r'^profile/$',Profile.as_view(), name='Profile'),
     url(r'^logout/$',logoutuser,name="Logout"),
-    url(r'^update_profile/$',UpdateProfile.as_view(),name="Update Profile")
+    url(r'^update_profiles/$',UpdateProfile.as_view(),name="Update Profile"),
+    url(r'reset_password/$',ResetPassword.as_view(),name="Reset Password")
 ]

@@ -31,7 +31,6 @@ class SignupForm(forms.Form):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        import pdb;pdb.set_trace()
         if User.objects.filter(email=email).exists():
             message = "User alresy existes with this email"
             raise ValidationError(message)
@@ -42,7 +41,7 @@ class SignupForm(forms.Form):
         if password_1 and password_2 and password_1 != password_2:
             message = "Passwords do not match"
             raise ValidationError(message)
-        return password2
+        return password_2
 # class ResetPasswordForm(forms.Form):
 #     username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(
 #         attrs={'class': 'inputcustom'}))
@@ -53,3 +52,16 @@ class SignupForm(forms.Form):
 #         attrs={'class': 'inputcustom'}))
 #     password_2 = forms.CharField(max_length=30, widget=forms.PasswordInput(
 #         attrs={'class': 'inputcustom'}))
+
+class ProfileForm(forms.Form):
+
+    mobile = forms.CharField(max_length=10, required=True,
+                             widget=forms.TextInput(attrs={'class': 'inputcustom'}))
+
+    # def clean_mobile(request):
+    #     import pdb; pdb.set_trace()
+    #     mobile = self.cleaned_data.get('mobile')
+
+class ResetPasswordForm(forms.Form):
+    username = forms.CharField(max_length=30, required=True, widget=forms.TextInput(
+        attrs={'class': 'input100'}))
