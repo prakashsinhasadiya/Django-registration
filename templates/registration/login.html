@@ -10,7 +10,7 @@
         <form class="form" method="post">
         {% csrf_token %}
           <span class="form-title-custom">
-            Lofin Form
+            Login Form
           </span>
           <div class="wrap-inputcustomstyle"">
             {{form.username}}
@@ -22,7 +22,7 @@
 
           <div class="wrap-inputcustomstyle"">
             {{form.password}}
-            <span class="wrap-inputcustomstyle"" data-placeholder="Password"></span>
+            <span class="wrap-inputcustomstyle" data-placeholder="Password"></span>
           </div>
           {%if 'password' in errors%}
             <div class='alert alert-warning'>{{errors.password}}</div>
@@ -31,20 +31,20 @@
             <div class='alert alert-warning'>{{errors.general_error}}</div>
           {% endif %}
 
-          <div class="container-login100-form-btn">
-            <div class="wrap-login100-form-btn">
-              <div class="login100-form-bgbtn"></div>
-              <button class="login100-form-btn" type="submit">
+          <div class="container-form-btn">
+            <div class="wrap-form-btn">
+              <div class="form-bgbtn"></div>
+              <button class="form-btn" type="submit">
                 Login
               </button>
             </div>
           </div>
-          <div class="text-center p-t-115">
+          <div class="text-center">
             <span class="txt1">
               Don’t have an account?
             </span>
 
-            <a href="{% url 'signup' %}">
+            <a href="/signup">
               Sign Up
             </a><br/>
             <span class="txt1">

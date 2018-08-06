@@ -4,6 +4,8 @@ from django.views import View
 from django.shortcuts import render
 from django.contrib.auth import login, authenticate, logout
 from django.shortcuts import redirect
+from django.core.mail import send_mail
+from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -11,8 +13,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse
 from django.template.loader import render_to_string
 from django.http import Http404
-from .forms import LoginForm, SignupForm,ProfileForm,ResetPasswordForm
-from .models import UserProfile
+from .forms import LoginForm, SignupForm,ProfileForm,ResetPasswordForm,ConfirmPasswordForm
+from .models import UserProfile,PasswordResetTokens
+import uuid
+
 
 
 # Get redirect url from settings file or else redirect to admin page.
@@ -147,4 +151,75 @@ class ResetPassword(View):
         return render(request, 'registration/reset_password.html', {'form': form})
 
     def  post(self,request):
+
         import pdb; pdb.set_trace()
+        reset_password_form = ResetPasswordForm(request.POST)
+        if not reset_password_form.is_valid():
+            return render(request, 'registration/reset_password.html', {'form': reset_password_form, 'errors': reset_password_form.errors})
+        username = reset_password_form.cleaned_data.get('username')
+        user = User.objects.filter(username=username)
+        if not user:
+            return render(request, 'registration/reset_password.html', {'form': reset_password_form, 'errors': {'general_error': 'User doesnot exist.'}})
+        token_obj = PasswordResetTokens.objects.create(
+            user=user[0], token=uuid.uuid4().hex)
+        url = ''
+        url += request.get_host()
+        url += '/set_password/'
+        url += '?token=' + token_obj.token
+        message = render_to_string('registration/reset_password_email_template.html', {
+            'user': user[0],
+            'url': url
+        })
+        res = send_mail('Password Reset', message, settings.FROM_EMAIL, [user[0].email])
+        return render(request, 'registration/reset_email_sent.html')
+
+class SetPassword(View):
+
+    def get(self, request):
+        """
+        Check if authorized to reset password.
+        Return reset password template
+        """
+        form = ConfirmPasswordForm()
+        token = request.GET.get('token')
+        if not token:
+            raise Http404('Page not found.')
+        token_obj = PasswordResetTokens.objects.filter(token=token)
+        if not token_obj:
+            raise Http404('Fake token supplied.')
+        # if token_obj[0].used:
+        #     raise Http404('Token already used')
+        # tz = pytz.timezone("UTC")
+        # if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expiry_time:
+        #     raise Http404('Token Expired. Try again')
+        return render(request, 'registration/set_password.html', {'form': form, 'token': token})
+
+    def post(self, request):
+        """
+        Save new password and redirect to Login
+        """
+        form = ConfirmPasswordForm(request.POST)
+        token = request.POST.get('token')
+        if not token:
+            raise Http404('Page not found.')
+        if not form.is_valid():
+            return render(request, 'registration/set_password.html', {'form': form, 'token': token, 'errors': form.errors})
+        token_obj = PasswordResetTokens.objects.filter(token=token)
+        if not token_obj:
+            raise Http404('Fake token supplied.')
+        # if token_obj[0].used:
+        #     raise Http404('Token already used')
+        # tz = pytz.timezone("UTC")
+        # if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expiry_time:
+        #     raise Http404('Token Expired. Try again')
+        password_1 = form.cleaned_data.get('password_1')
+        password_2 = form.cleaned_data.get('password_2')
+        if not password_1 == password_2:
+            return render(request, 'registration/set_password.html', {'form': form, 'token': token, 'errors': {'general_error': "passwords don't match"}})
+        import pdb; pdb.set_trace()
+        user = token_obj[0].user
+        user.set_password(password_1)
+        user.save()
+        token_obj[0].used = True
+        token_obj[0].save()
+        return HttpResponseRedirect(reverse('login'))
