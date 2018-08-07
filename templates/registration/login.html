@@ -10,17 +10,18 @@
         <form class="form" method="post">
         {% csrf_token %}
           <span class="form-title-custom">
-            Login Form
+            <center>Login Form</center>
           </span>
           <div class="wrap-inputcustomstyle"">
+            <span>Email</span>
             {{form.username}}
-            <span class="wrap-inputcustomstyle" data-placeholder="Username"></span>
+            <span class=".focus-input100" data-placeholder="Email"></span>
           </div>
           {%if 'username' in errors%}
             <div class='alert alert-warning'>{{errors.username}}</div>
           {% endif %}
-
           <div class="wrap-inputcustomstyle"">
+            <span>Password</span>
             {{form.password}}
             <span class="wrap-inputcustomstyle" data-placeholder="Password"></span>
           </div>

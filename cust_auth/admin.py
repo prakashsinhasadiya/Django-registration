@@ -9,7 +9,7 @@ class ProfileAdmin(admin.ModelAdmin):
 
 class PasswordResetTokensAdmin(admin.ModelAdmin):
     model = PasswordResetTokens
-    list_display = ['user', 'token']
+    list_display = ['user', 'token','expired_time']
 
 admin.site.register(UserProfile, ProfileAdmin)
 admin.site.register(PasswordResetTokens, PasswordResetTokensAdmin)

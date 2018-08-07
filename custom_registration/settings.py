@@ -25,7 +25,7 @@ SECRET_KEY = 'yxaok@mv0n2k9wnsdncozf5_w5iq#d9h)c*77(v25-*v4im1a&'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['172.10.23.155','localhost']
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))
 STATIC_ROOT = os.path.join(PROJECT_DIR, 'static_assets')
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'cust_auth',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -78,7 +79,7 @@ WSGI_APPLICATION = 'custom_registration.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'test1.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'register.sqlite3'),
     }
 }
 

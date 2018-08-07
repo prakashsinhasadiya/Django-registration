@@ -16,12 +16,14 @@ from django.http import Http404
 from .forms import LoginForm, SignupForm,ProfileForm,ResetPasswordForm,ConfirmPasswordForm
 from .models import UserProfile,PasswordResetTokens
 import uuid
+from datetime import datetime
+import pytz
 
 
 
 # Get redirect url from settings file or else redirect to admin page.
 profile_redirect_url = settings.PROFILE_REDIRECT_URL or '/admin'
-login_redirect_url = settings.LOGIN_REDIRECT_URL or ''
+login_redirect_url = settings.LOGIN_URL or ''
 
 
 class Login(View):
@@ -32,7 +34,6 @@ class Login(View):
         """
         if request.user.is_authenticated():
             return redirect(profile_redirect_url)
-        import pdb; pdb.set_trace()
         form = LoginForm()
         return render(request, 'registration/login.html', {'form': form})
 
@@ -152,7 +153,6 @@ class ResetPassword(View):
 
     def  post(self,request):
 
-        import pdb; pdb.set_trace()
         reset_password_form = ResetPasswordForm(request.POST)
         if not reset_password_form.is_valid():
             return render(request, 'registration/reset_password.html', {'form': reset_password_form, 'errors': reset_password_form.errors})
@@ -187,11 +187,9 @@ class SetPassword(View):
         token_obj = PasswordResetTokens.objects.filter(token=token)
         if not token_obj:
             raise Http404('Fake token supplied.')
-        # if token_obj[0].used:
-        #     raise Http404('Token already used')
-        # tz = pytz.timezone("UTC")
-        # if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expiry_time:
-        #     raise Http404('Token Expired. Try again')
+        tz = pytz.timezone("UTC")
+        if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expired_time:
+            raise Http404('Token Expired. Try again')
         return render(request, 'registration/set_password.html', {'form': form, 'token': token})
 
     def post(self, request):
@@ -207,19 +205,15 @@ class SetPassword(View):
         token_obj = PasswordResetTokens.objects.filter(token=token)
         if not token_obj:
             raise Http404('Fake token supplied.')
-        # if token_obj[0].used:
-        #     raise Http404('Token already used')
-        # tz = pytz.timezone("UTC")
-        # if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expiry_time:
-        #     raise Http404('Token Expired. Try again')
+        tz = pytz.timezone("UTC")
+        if tz.localize(datetime.now(), is_dst=None) > token_obj[0].expired_time:
+            raise Http404('Token Expired. Try again')
         password_1 = form.cleaned_data.get('password_1')
         password_2 = form.cleaned_data.get('password_2')
         if not password_1 == password_2:
             return render(request, 'registration/set_password.html', {'form': form, 'token': token, 'errors': {'general_error': "passwords don't match"}})
-        import pdb; pdb.set_trace()
         user = token_obj[0].user
         user.set_password(password_1)
         user.save()
-        token_obj[0].used = True
-        token_obj[0].save()
+        token_obj[0].delete()
         return HttpResponseRedirect(reverse('login'))

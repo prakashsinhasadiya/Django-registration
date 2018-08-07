@@ -10,8 +10,13 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     mobile = models.CharField(max_length=10, null=True, blank=True)
 
+
+class AutoDateTimeField(models.DateTimeField):
+    def pre_save(self, model_instance, add):
+        return datetime.now() + timedelta(hours=24)
+
 class PasswordResetTokens(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='password_reset_token')
     token = models.CharField(max_length=60, null=False, blank=False)
-    # expiry_time = AutoDateTimeField()
+    expired_time = AutoDateTimeField(default=datetime.now)
     # used = models.BooleanField(default=False)
