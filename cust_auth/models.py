@@ -17,6 +17,6 @@ class AutoDateTimeField(models.DateTimeField):
 
 class PasswordResetTokens(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='password_reset_token')
-    token = models.CharField(max_length=60, null=False, blank=False)
+    token = models.CharField("Tocken ID", max_length=60, null=False, blank=False)
     expired_time = AutoDateTimeField(default=datetime.now)
     # used = models.BooleanField(default=False)
