@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'custom_registration.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'register.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'prakash.sqlite3'),
     }
 }
 

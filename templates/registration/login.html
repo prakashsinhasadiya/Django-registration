@@ -4,59 +4,64 @@
 {% block title %}<title>Login</title>{% endblock %}
 
 {% block body %}
-<div class="limiter">
-    <div class="container-customstyle">
-        <div class="wrap-customstyle">
-        <form class="form" method="post">
-        {% csrf_token %}
-          <span class="form-title-custom">
-            <center>Login Form</center>
-          </span>
-          <div class="wrap-inputcustomstyle"">
-            <span>Email</span>
-            {{form.username}}
-            <span class=".focus-input100" data-placeholder="Email"></span>
-          </div>
-          {%if 'username' in errors%}
-            <div class='alert alert-warning'>{{errors.username}}</div>
-          {% endif %}
-          <div class="wrap-inputcustomstyle"">
-            <span>Password</span>
-            {{form.password}}
-            <span class="wrap-inputcustomstyle" data-placeholder="Password"></span>
-          </div>
-          {%if 'password' in errors%}
-            <div class='alert alert-warning'>{{errors.password}}</div>
-          {% endif %}
-          {%if 'general_error' in errors%}
-            <div class='alert alert-warning'>{{errors.general_error}}</div>
-          {% endif %}
-
-          <div class="container-form-btn">
-            <div class="wrap-form-btn">
-              <div class="form-bgbtn"></div>
-              <button class="form-btn" type="submit">
-                Login
-              </button>
-            </div>
-          </div>
-          <div class="text-center">
-            <span class="txt1">
-              Don’t have an account?
-            </span>
-
-            <a href="/signup">
-              Sign Up
-            </a><br/>
-            <span class="txt1">
-              Rese your password?
-            </span>
-            <a href="/reset_password">
-              Reset Password
-            </a><br/>
-          </div>
-        </form>
-      </div>
+<div class="container">
+    <div class="row main">
+        <div class="main-login main-center">
+            <h4 style="text-align: center;"><b>Login Form</h4>
+            <form class="form" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label class="cols-sm-2 control-label">Email</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-envelope fa" aria-hidden="true"></i></span>
+                            <span class="form-control">
+                                {{form.username}}
+                            </span>
+                        </div>
+                    </div>
+                    {%if 'username' in errors%}
+                        <div class='alert alert-warning'>{{errors.username}}</div>
+                    {% endif %}
+                </div>
+                <div class="form-group">
+                    <label class="cols-sm-2 control-label">Password</label>
+                    <div class="cols-sm-10">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fa fa-lock fa-lg" aria-hidden="true"></i></span>
+                            <span class="form-control">
+                                {{form.password}}
+                            </span>
+                        </div>
+                    </div>
+                    {%if 'password' in errors%}
+                        <div class='alert alert-warning'>{{errors.password}}</div>
+                    {% endif %}
+                </div>
+                {%if 'general_error' in errors%}
+                    <div class='alert alert-warning'>{{errors.general_error}}</div>
+                {% endif %}
+                <div>
+                    <button class="btn btn-primary btn-lg btn-block signup-button" type="submit">
+                        Login Up
+                    </button>
+                </div>
+                <div class="text-center">
+                    <span class="txt1">
+                        Don’t have an account?
+                    </span>
+                    <a href="/signup">
+                        Sign Up
+                    </a><br/>
+                    <span class="txt1">
+                        Rese your password?
+                    </span>
+                    <a href="/reset_password">
+                        Reset Password
+                    </a><br/>
+                </div>
+            </form>
+        </div>
     </div>
   </div>
 {% endblock %}

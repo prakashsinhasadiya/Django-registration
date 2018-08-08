@@ -18,11 +18,11 @@
                             <span class="form-control">
                                 {{form.first_name}}
                             </span>
-                            {%if 'first_name' in errors%}
-                                <div class='alert alert-warning'>{{errors.first_name}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'first_name' in errors%}
+                        <div class='alert alert-warning'>{{errors.first_name}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">Last Name</label>
@@ -32,11 +32,11 @@
                             <span class="form-control">
                                 {{form.last_name}}
                             </span>
-                            {%if 'last_name' in errors%}
-                                <div class='alert alert-warning'>{{errors.last_name}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'last_name' in errors%}
+                        <div class='alert alert-warning'>{{errors.last_name}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">User Name</label>
@@ -46,11 +46,11 @@
                             <span class="form-control">
                                 {{form.username}}
                             </span>
-                            {%if 'username' in errors%}
-                                <div class='alert alert-warning'>{{errors.username}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'username' in errors%}
+                        <div class='alert alert-warning'>{{errors.username}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">Email</label>
@@ -60,11 +60,11 @@
                             <span class="form-control">
                                 {{form.email}}
                             </span>
-                            {%if 'email' in errors%}
-                                <div class='alert alert-warning'>{{errors.email}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'email' in errors%}
+                        <div class='alert alert-warning'>{{errors.email}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">Mobile</label>
@@ -74,11 +74,11 @@
                             <span class="form-control">
                                 {{form.mobile}}
                             </span>
-                            {%if 'mobile' in errors%}
-                                <div class='alert alert-warning'>{{errors.mobile}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'mobile' in errors%}
+                        <div class='alert alert-warning'>{{errors.mobile}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">Password</label>
@@ -88,11 +88,11 @@
                             <span class="form-control">
                                 {{form.password_1}}
                             </span>
-                            {%if 'password_1' in errors%}
-                                <div class='alert alert-warning'>{{errors.password_1}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'password_1' in errors%}
+                        <div class='alert alert-warning'>{{errors.password_1}}</div>
+                    {% endif %}
                 </div>
                 <div class="form-group">
                     <label class="cols-sm-2 control-label">Confirm Password</label>
@@ -102,11 +102,11 @@
                             <span class="form-control">
                                 {{form.password_2}}
                             </span>
-                            {%if 'password_2' in errors%}
-                                <div class='alert alert-warning'>{{errors.password_2}}</div>
-                            {% endif %}
                         </div>
                     </div>
+                    {%if 'password_2' in errors%}
+                        <div class='alert alert-warning'>{{errors.password_2}}</div>
+                    {% endif %}
                 </div>
                 {%if 'general_error' in errors%}
                 <div class='alert alert-warning'>{{errors.general_error}}</div>
@@ -117,17 +117,17 @@
                     </button>
                 </div>
           <div class="text-center">
-            <span class="txt1">
+            <span>
               You have an account?
             </span>
 
             <a href='{% url "login" %}'>
               Login
             </a><br/>
-            <span class="txt1">
+            <span>
               Rese your password?
             </span>
-            <a href="/reset_password">
+            <a href='{% url "reset_password" %}'>
               Reset Password
             </a><br/>
           </div>

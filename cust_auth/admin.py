@@ -8,7 +8,7 @@ class ProfileAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'mobile']
 
 class PasswordResetTokensAdmin(admin.ModelAdmin):
-    list_display = ['user', 'token','expired_time']
+    list_display = ['user', 'token']
 
 admin.site.register(UserProfile, ProfileAdmin)
 admin.site.register(PasswordResetTokens, PasswordResetTokensAdmin)

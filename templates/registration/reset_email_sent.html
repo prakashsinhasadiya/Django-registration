@@ -4,12 +4,12 @@
 {% block title %}<title>Login</title>{% endblock %}
 
 {% block body %}
-<div class="limiter">
-    <div class="container-login100">
-      <div>
-        <div class="login100-form">
-        <span class="p-b-26">
-            <h1>An email has been sent to registered email address. <br/>Follow the instructions in mail to reset your password.</h1>
+<div class="container">
+    <div class="row main">
+        <div class="main-login main-center">
+        <div class="form">
+        <span>
+            <h3>An email has been sent to registered email address. <br/>Follow the instructions in mail to reset your password.</h3>
           </span>
         {% csrf_token %}
         </div>

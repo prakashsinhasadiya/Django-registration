@@ -13,10 +13,4 @@ class Migration(migrations.Migration):
         ('cust_auth', '0003_passwordresettokens'),
     ]
 
-    operations = [
-        migrations.AddField(
-            model_name='passwordresettokens',
-            name='expired_time',
-            field=cust_auth.models.AutoDateTimeField(default=datetime.datetime(2018, 8, 7, 6, 9, 5, 971101)),
-        ),
-    ]
+   
